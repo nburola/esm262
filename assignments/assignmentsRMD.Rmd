@@ -1,0 +1,17 @@
+---
+title: "Assignment Directory: ESM 262: Environmental Science and Management"
+author: "Nathaniel Burola"
+date: "2/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Example Paragraph 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+# An example paragraph, subject to shifting on a whim! 
+```
+
