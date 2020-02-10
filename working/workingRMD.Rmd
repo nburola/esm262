@@ -1,0 +1,29 @@
+---
+title: "Working Directory: ESM 262 Environmental Science and Management"
+author: "Nathaniel Burola"
+date: "2/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, include = FALSE}
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+### Introductory Paragraph (Why I Am Taking This Course)
+```{r}
+# I am taking this course as part of the Environmental Data Science (EDS) focus at the Bren School of Environmental Science & Management. This course was split off from ESM 261 and as a result I am taking it during this Winter Quarter of 2020. I am assuming this is a soft introduction to all things related to data science within the realm of environmental science such as with R, Git, and other programs. It is always good to have a brief introduction that takes you back to your roots. I feel as if with ESM 206, we jumped straight into the world of RStudio and Git, however, I never got a taste of that soft introduction I was looking for. Who knows? 
+```
+
+### Introductory Paragraph (Describing My Data Science Background)
+```{r}
+# When choosing between the multiple foci at the Bren School, I noted that I was always relatively weak at data science in the past when it came to my college years despite being a science major. The EDS focus seemed approrpiate to correct a glaring weakness that may be crippling when attempting to migrate to the workforce post graduation. I have learned a lot over the past year and a half when it came to multiple data science classes such as with ESM 206, ESM 244, ESM 267, and ESM 439. This includes learning more about unknown programs such as ArcGIS, RStudio, QGIS, Python, and Tableau that I had previously had no experience in. Data science for me is difficult to understand but I get better at it everyday!   
+```
+
