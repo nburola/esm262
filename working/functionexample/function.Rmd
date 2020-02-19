@@ -1,0 +1,26 @@
+---
+title: "ESM 262: Computing Example Assignment Function Error Checking"
+author: "Nathaniel Burola"
+date: "2/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+fish_biology = function(height, length, life, r = 0.6)
+  {height = ifelse( (height < 0), NA, height)#Make sure height in centimeters values are postive so that there are no NA values 
+  length = ifelse( (length < 0), NA, length) #Make sure that length in centimeters values are postive so that there are no NA values
+  
+  life = ifelse( (life < 0), NA, life) #Make sure that life expectancy in years are postive so that there are no NA values 
+  
+  result = height * length * life * r #Multiplying all of the variables together in order to get the result of the biology of the fish 
+  return(result)
+                
+}
+
+fish_calc(5, 10, 20)
+```
+
