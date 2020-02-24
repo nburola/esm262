@@ -1,0 +1,72 @@
+---
+title: "Function_Sample _Data"
+author: "Robert Saldivar and Nathan Burola"
+date: "February 23, 2020"
+output: html_document
+---
+```{r setup, include=FALSE, echo=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Attaching some packages in the mix 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+```
+
+#Generating single data for the function 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+trial_1 <- popgrow(population = 1000, hunters = 0)
+#Result: With a population of 1000 and a hunter population of 0, the growth rate of the population taking into account harvest rates will be 25 individuals per year. 
+
+trial_2 <- popgrow(population = 1000, hunters = 100)
+#Result: With a population of 1000 and a hunter population of 100, the growth rate of the population taking into account harvest will be -429.5455 individuals per year effectively driving the population to extinction. 
+
+```
+
+##Creating a data frame for the function with 2000 individuals and 0 hunters to simulate postive population growth rates with harvests included 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#Example: We want to see how the growth of the population is going to change with 0 hunters 
+
+#Creating a population sample of 2000 individuals with a mean of 1000 and a standard deviation of 200
+
+nsample = 2000 
+population = rnorm(mean = 1000, sd = 200, n = nsample)
+
+#Creating the data frame with population and the calculated growth rate as an NA column 
+results = data.frame(population=population, growthrate=NA)
+
+head(results)
+
+#Calculating the population growth rate with 0 hunters and still keeping populations equal to populations 
+results$growthrate = popgrow(population = population, hunters = 0)
+
+#Ploting the results of the population vs growth rate graph 
+ecology_plot <- ggplot(results, aes(population, results$growthrate)) + geom_point() + labs(x = "# of Individuals in Population", y = "Population Growth Rate (Postive)") + ggtitle("Population Growth Rate with Harvest Included Considering 0 Hunters") + theme(plot.title=element_text(hjust=0.5))
+
+ecology_plot
+
+#Result: With 0 hunters and a maximum carrying capacity of 2,000, it has been shown that the population growth rate with harvest included peaks around 1,000 individuals with a postive growth rate of 25.0 individuals per year. 
+```
+
+##Creating a data frame for the function with 2000 individuals and 10 hunters to simulate negative population growth rates with harvests included 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#Example: We want to see how the growth of the population is going to change with 10 hunters 
+
+#Creating a data frame which simulates every individual population from 1 to 2000 
+pop_results = data.frame(population=seq(from=1, to=2000))
+
+#Calculating the population growth harvest with 10 hunters 
+pop_results$ecology = popgrow(pop_results$population, hunter = 10)
+
+pop_results$ecology
+
+#Creating a ggplot graph with the maximum carrying capacity of 2000 individuals and 10 hunters to see how the growth rate changes over time 
+
+mark_plot <- ggplot(pop_results, aes(population, pop_results$ecology)) + geom_point(size = 3)+labs(y = "Population Growth Rates (Negative)", x = "# of Individuals in Population") + ggtitle("Population Growth Rate with Harvest Included Considering 10 Hunters") 
+
+mark_plot
+
+#Result: With 10 hunters and a maximum carrying capacity of 2,000, the population growth rate has turned negative showcasing that as more hunters are added in the function, the population of other organisms will start decreasing. 
+```
