@@ -1,0 +1,125 @@
+---
+title: "ESM 262: Computing for Environmental Science & Management: Assignment 2 Fisheries"
+author: "Nathaniel Burola" 
+date: "3/8/2020" 
+output: html_document
+---
+
+#Instructions for Assignment #2 
+
+# Write a function that takes as input the following: 
+# A table that has prices for different fish 
+# A table that has the number caught for each fish species for each location 
+# Each fish is in a different row 
+
+# Function outputs will be: 
+# Most frequently caught fish in each location 
+# Total revenue for each location 
+# Total fisheries revenue sum
+
+# If user requests it graph of revenue by location and total revenue (as text)
+# Place function in an *.R file*
+
+## Installing packages for the assignment
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+```
+
+
+## Loading the function by sourcing the function file saved as an R file 
+```{r load function}
+# Source the function, which is located n the same folder
+source("function.R", local = FALSE, echo = FALSE)
+
+```
+
+## Creating a table for digimon species with prices and species 
+```{r fishprice}
+
+# Creating a table of digimon species 
+fish = c("Seadramon", "Whamon", "MegaSeadramon", "Calmaramon", "WaruSeadramon")
+
+# Creating prices for digimon species 
+digimonprice = c(10, 32, 50, 70, 100)
+
+# Create table with prices and digimon species 
+digifish_species <- data.frame(row.names = fish, digimonprice)
+
+```
+
+
+## Table with the number of caught individuals for each digimon marine species per each location 
+```{r catchlocation}
+
+# Creating locations where each Digimon marine can be caught (all of these are real locations from the Digtail Coast)
+locations = c("Fossil Canyon", "Dragon's Eye Lake", "Drill Tunnel", "Gear Savannah", "Factorial Town")
+
+# Creating catch numbers from each location 
+Fossil = c(106, 310, 320, 92, 254)
+Dragon = c(195, 285, 359, 491, 343)
+Drill = c(328, 479, 319, 141, 392)
+Gear = c(125, 101, 19, 64, 130)
+Factorial = c(277, 425, 553, 317, 109)
+
+catch_location = c(Fossil, Dragon, Drill, Gear, Factorial)
+
+# Creating a table for each location where digimon marine species are caught 
+digi_catch <- matrix(c(catch_location), 
+                     nrow = 5, ncol = 5,
+                     dimnames = list(c(fish), c(locations)))
+
+```
+
+## Putting the function code inside a chunk 
+```{r function}
+
+# Writing a function that has the following inputs: 
+  # a table that has prices for different fish
+  # a table that has the number caught for each fish species for each location
+
+# Create a function that simulates digimon marine species fishery calculations 
+digi_calc = function(catch_location, digimonprice, plot = F) {
+  # Calculate the most frequently caught digimon marine species in each location
+  bigfish = list(colnames(catch_location), rownames(catch_location)[apply(catch_location, 2, which.max)])
+  bigfish_df = as.data.frame(bigfish)
+  names(bigfish_df) = c("Location", "Most Frequent Fish Caught")
+  # Calculate the total revenue for each location in the Digtail World where marine species are caught 
+  revenue_location = sum(digimonprice[,1]*catch_location)
+  # Calculate the total digimon marine fisheries revenue sum which is an aggregation of the total revenue
+  revenue_digi = digimonprice[,1]*catch_location
+  revenue_digi = colSums(revenue_digi)
+  revenue_digi_df = as.data.frame(revenue_digi)
+  locations = c("Fossil Canyon", "Dragon's Eye Lake", "Drill Tunnel", "Gear Savannah", "Factorial Town")
+  revenue_digi_df$location = locations
+  
+  # If the user requests a graph by which to see the digimon marine species catch, they can see this! 
+  if(plot) {
+    digiplot <- ggplot(revenue_digi_df, aes(x = locations, y = revenue_digi, fill = locations, group = 0)) +
+      geom_col() +
+      labs(x = "Location in the Digtail World", y = "Revenue of Captured Digimon Marine Species (digitokens)", title = "Digimon Fishing Revenue By Location", subtitle = sprintf("Total Digitoken Revenue = 340,160 digitokens", revenue_location)) +
+      theme_bw() +
+      scale_fill_manual(values =c("black","blue","green", "yellow","brown")) + theme(plot.title = element_text(hjust = 0.5))
+  }
+  
+  #Creating an else statement that states that any other value is a NULL value 
+  else digiplot = NULL
+  
+  #Creating a return statement that spits out certain results 
+  return(list(dominantfishery = bigfish_df, totalrevenue = revenue_location, revenuefishery = revenue_digi_df, plot = digiplot))
+
+}
+
+```
+
+## Running the function 
+```{r run}
+
+# Running the function in order to see a graph placed in ggplot
+
+digi_calc(digi_catch, digifish_species, plot = T)
+
+#Result: According to the bar plot, Dragon's Eye has the highest revenue of captured digimon marine species with close to 100,000 digitokens whereas Gear Savannah has the lowest revenue of captured digimon marine species with close to 25,000 digitokens. 
+
+```
